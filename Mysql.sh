@@ -4,6 +4,9 @@
 sudo apt update
 sudo apt install -y mariadb-server
 
+#quita la conexion a internet
+sudo ip route del default
+
 # Habilitar y arrancar el servicio (puede llamarse mysql en algunas versiones)
 sudo systemctl enable mariadb || systemctl enable mysql
 sudo systemctl start mariadb || systemctl start mysql
