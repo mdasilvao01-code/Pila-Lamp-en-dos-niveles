@@ -26,22 +26,25 @@ Este proyecto implementa una infraestructura de dos niveles utilizando Vagrant y
 ## ⚙️ Vagrantfile
 
 ```ruby
-Vagrant.configure("2") do |config|
   config.vm.define "MarioApache" do |apache|
     apache.vm.box = "debian/bookworm64"
     apache.vm.hostname = "MarioApache"
     apache.vm.network "forwarded_port", guest: 80, host: 8080
     apache.vm.network "private_network", ip: "192.168.33.10"
     apache.vm.provision "shell", path: "Apache.sh"
+    apache.vm.network "public_network", bridge: "enp0s3"
   end
+
 
   config.vm.define "MarioMysql" do |mysql|
     mysql.vm.box = "debian/bookworm64"
     mysql.vm.hostname = "MarioMysql"
+    mysql.vm.network "forwarded_port", guest: 3306, host: 8088
+    mysql.vm.network "forwarded_port", guest: 80, host: 8089
     mysql.vm.network "private_network", ip: "192.168.33.11"
     mysql.vm.provision "shell", path: "Mysql.sh"
   end
-end
+
 
 
 #!/bin/bash
